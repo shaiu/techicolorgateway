@@ -1,0 +1,1 @@
+Technicolor component for Home Assistant
