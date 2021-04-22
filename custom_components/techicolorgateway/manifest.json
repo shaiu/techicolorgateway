@@ -4,7 +4,7 @@
   "documentation": "https://github.com/shaiu/techicolorgateway",
   "dependencies": [],
   "codeowners": [],
-  "requirements": ["beautifulsoup4==4.9.3"],
+  "requirements": ["robobrowser==0.5.3", "html2text==2020.1.16", "werkzeug==0.16"],
   "version": "0.1.0",
   "iot_class": "local_polling"
 }
