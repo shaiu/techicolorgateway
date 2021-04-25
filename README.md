@@ -1,1 +1,1 @@
-Technicolor component for Home Assistant
+## Technicolor Gateway Scraper library
