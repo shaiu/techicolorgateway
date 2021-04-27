@@ -27,25 +27,25 @@ class TechnicolorGateway(object):
         try:
             self._br.open(self._uri)
             token = self._br.find(lambda tag: tag.has_attr('name') and tag['name'] == 'CSRFtoken')['content']
-            _LOGGER.debug(f'Got CSRF token: {token}')
+            _LOGGER.debug('Got CSRF token: %s', token)
 
             usr = srp.User(self._user, self._password, hash_alg=srp.SHA256, ng_type=srp.NG_2048)
             uname, A = usr.start_authentication()
-            _LOGGER.debug(f'A value {binascii.hexlify(A)}')
+            _LOGGER.debug('A value %s', binascii.hexlify(A))
 
             self._br.open(f'{self._uri}/authenticate', method='post',
                           data=urlencode({'CSRFtoken': token, 'I': uname, 'A': binascii.hexlify(A)}))
-            _LOGGER.debug(f"br.response {self._br.response}")
+            _LOGGER.debug("br.response %s", self._br.response)
             j = json.decoder.JSONDecoder().decode(self._br.parsed.decode())
-            _LOGGER.debug(f"Challenge received: {j}")
+            _LOGGER.debug("Challenge received: %s", j)
 
             M = usr.process_challenge(binascii.unhexlify(j['s']), binascii.unhexlify(j['B']))
-            _LOGGER.debug(f"M value {binascii.hexlify(M)}")
+            _LOGGER.debug("M value %s", binascii.hexlify(M))
             self._br.open(f'{self._uri}/authenticate', method='post',
                           data=urlencode({'CSRFtoken': token, 'M': binascii.hexlify(M)}))
-            _LOGGER.debug(f"br.response {self._br.response}")
+            _LOGGER.debug("br.response %s", self._br.response)
             j = json.decoder.JSONDecoder().decode(self._br.parsed.decode())
-            _LOGGER.debug(f"Got response {j}")
+            _LOGGER.debug("Got response %s", j)
 
             if 'error' in j:
                 raise Exception("Unable to authenticate (check password?), message:", j)
