@@ -10,7 +10,7 @@ regex_broadband_modal = re.compile(r' {2}Line Rate +(?P<us>[0-9.]+)'
 
 regex_device_modal = re.compile(
     r'(?P<name>[\w\-_]+) ?\|'
-    r' ?(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) ?\|'
+    r' ?(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})? ?\|'
     r' ?(?P<mac>[\d\w]{2}:[\d\w]{2}:[\d\w]{2}:[\d\w]{2}:[\d\w]{2}:[\d\w]{2})')
 
 
