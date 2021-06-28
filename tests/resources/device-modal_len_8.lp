@@ -1,0 +1,4 @@
+<fieldset>
+    <legend>Devices</legend>
+    <div class="control-group"><table id="devices" class="table table-striped" data-stateid=""><thead><tr><th>Status</th><th>Priority</th><th>Hostname</th><th>IP address</th><th>MAC address</th><th>Type</th><th>Port</th><th></th></tr></thead><tbody><tr><td><span class="simple-desc"><div class="light green"></div></span></td><td><div class="switch switch disabled"><div class="switcher" texton="ON" textoff="OFF" valon="1" valoff="0"></div><input value="0" type="hidden" name="priority" id="priority"></div></td><td>Mate</td><td>192.168.1.2</td><td>02:11:12:12:12:12</td><td>ethernet</td><td>4</td> <td><div id="" class="btn btn-mini btn-table-edit tooltip-on" data-placement="top" data-original-title="Edit"><i class="icon-edit"></i>  </div></td></tr></tbody></table></div>
+</fieldset>
