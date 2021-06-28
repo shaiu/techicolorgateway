@@ -1,6 +1,8 @@
 import re
 import html2text
 
+from bs4 import BeautifulSoup
+
 h = html2text.HTML2Text()
 h.body_width = 0
 
@@ -22,7 +24,16 @@ def get_broadband_modal(content):
 
 
 def get_device_modal(content):
-    body = h.handle(content)
-    body = body[body.find('Status'):body.find('Close')]
-    body = body.replace("_", "").replace("\n", " ")
-    return [m.groupdict() for m in regex_device_modal.finditer(body)]
+    data = []
+    soup = BeautifulSoup(content)
+    rows = soup.fieldset.find_all('tr')
+    for row in rows:
+        cols = row.find_all('td')
+        cols = [ele.text.strip() for ele in cols]
+        if len(cols) == 0:
+            continue
+        if len(cols) == 6:
+            data.append({'name': cols[1], 'ip': cols[2], 'mac': cols[3]})
+        if len(cols) == 12:
+            data.append({'name': cols[1], 'ip': cols[2], 'mac': cols[4]})
+    return data
