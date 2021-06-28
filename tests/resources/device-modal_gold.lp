@@ -16,7 +16,9 @@
 
         <fieldset>
             <legend>Devices</legend>
-            <div class="control-group"><table id="devices" class="table table-striped" data-stateid=""><thead><tr><th>Status</th><th>Hostname</th><th>IP address</th><th>MAC address</th><th>Type</th><th>Port</th></tr></thead><tbody><tr><td><span class="simple-desc"><div class="light green"></div></span></td><td>hostname1</td><td>192.168.1.216</td><td>c8:2b:96:11:09:59</td><td>Ethernet</td><td>2</td> </tr><tr><td><span class="simple-desc"><div class="light green"></div></span></td><td>hostname2</td><td>192.168.1.231</td><td>c8:2b:96:10:e3:93</td><td>Ethernet</td><td>2</td> </tr><tr><td><span class="simple-desc"><div class="light green"></div></span></td><td>hostname3</td><td>192.168.1.192</td><td>24:62:ab:bb:65:30</td><td>Ethernet</td><td>2</td> </tr></tbody></table></div>
+            <div class="control-group"><table id="devices" class="table table-striped" data-stateid=""><thead><tr><th>Status</th><th>Hostname</th><th>IP address</th><th>MAC address</th><th>Type</th><th>Port</th></tr></thead><tbody>
+            <tr><td><span class="simple-desc"><div class="light green"></div></span></td>
+                <td>hostname1</td><td>192.168.1.216</td><td>c8:2b:96:11:09:59</td><td>Ethernet</td><td>2</td> </tr><tr><td><span class="simple-desc"><div class="light green"></div></span></td><td>hostname2</td><td>192.168.1.231</td><td>c8:2b:96:10:e3:93</td><td>Ethernet</td><td>2</td> </tr><tr><td><span class="simple-desc"><div class="light green"></div></span></td><td>hostname3</td><td>192.168.1.192</td><td>24:62:ab:bb:65:30</td><td>Ethernet</td><td>2</td> </tr></tbody></table></div>
         </fieldset>
     </form>
 </div>
