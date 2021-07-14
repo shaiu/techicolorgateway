@@ -25,7 +25,7 @@ def get_broadband_modal(content):
 
 def get_device_modal(content):
     data = []
-    soup = BeautifulSoup(content)
+    soup = BeautifulSoup(content, features="lxml")
     rows = soup.fieldset.find_all('tr')
     for row in rows:
         cols = row.find_all('td')
