@@ -14,6 +14,20 @@ class TestModal:
         assert modal_dict['uploaded'] == '898.57'
         assert modal_dict['downloaded'] == '3973.16'
 
+    def test_get_device_modal_fw_2_3_1(self):
+        with open('tests/resources/device-modal_2_3_1_fw.lp') as f:
+            content = f.read()
+        modal_list = get_device_modal(content)
+        print('\n')
+        print(modal_list)
+        assert len(modal_list) == 27
+        assert modal_list[0]['name'] == 'Unknown-3c:71:bf:39:ab:3b'
+        assert modal_list[0]['ip'] == '192.168.1.53'
+        assert modal_list[0]['mac'] == '3c:71:bf:39:ab:3b'
+        assert modal_list[-1]['name'] == 'Cellulare-KKK'
+        assert modal_list[-1]['ip'] == ''
+        assert modal_list[-1]['mac'] == 'b4:cd:27:b0:1f:23'
+
     def test_get_device_modal_len6(self):
         with open('tests/resources/device-modal_len6.lp') as f:
             content = f.read()
