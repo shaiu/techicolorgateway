@@ -26,16 +26,26 @@ def get_broadband_modal(content):
 def get_device_modal(content):
     data = []
     soup = BeautifulSoup(content, features="lxml")
+    devices = soup.find_all("div", {"class": "popUp smallcard span4"})
     rows = soup.fieldset.find_all('tr')
-    for row in rows:
-        cols = row.find_all('td')
-        cols = [ele.text.strip() for ele in cols]
-        if len(cols) == 0:
-            continue
-        if len(cols) == 6:
-            data.append({'name': cols[1], 'ip': cols[2], 'mac': cols[3]})
-        if len(cols) == 12:
-            data.append({'name': cols[1], 'ip': cols[2], 'mac': cols[4]})
-        if len(cols) == 8:
-            data.append({'name': cols[2], 'ip': cols[3], 'mac': cols[4]})
+    if len(devices) > 0:
+        for device in devices:
+            device_contents = device.contents
+            name = device_contents[1].contents[1].contents[1].text
+            ip = device_contents[3].contents[3].contents[1].text
+            mac = device_contents[3].contents[5].contents[1].text
+            data.append({'name': name, 'ip': ip, 'mac': mac})
+
+    if len(rows) > 0:
+        for row in rows:
+            cols = row.find_all('td')
+            cols = [ele.text.strip() for ele in cols]
+            if len(cols) == 0:
+                continue
+            if len(cols) == 6:
+                data.append({'name': cols[1], 'ip': cols[2], 'mac': cols[3]})
+            if len(cols) == 12:
+                data.append({'name': cols[1], 'ip': cols[2], 'mac': cols[4]})
+            if len(cols) == 8:
+                data.append({'name': cols[2], 'ip': cols[3], 'mac': cols[4]})
     return data
