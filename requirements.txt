@@ -17,4 +17,4 @@ soupsieve==2.2.1
 toml==0.10.2
 urllib3==1.26.5
 Werkzeug==0.16.1
-lxml==4.6.5
+lxml==4.9.1
