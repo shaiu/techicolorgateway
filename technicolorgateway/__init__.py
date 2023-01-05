@@ -11,7 +11,7 @@ from technicolorgateway.modal import get_device_modal, get_broadband_modal
 
 _LOGGER = logging.getLogger(__name__)
 
-__version__ = "1.1.3"
+__version__ = "1.1.5"
 
 
 class TechnicolorGateway(object):
