@@ -9,7 +9,7 @@ packaging==20.9
 pluggy==0.13.1
 py==1.10.0
 pyparsing==2.4.7
-pytest==6.2.3
+pytest==7.2.0
 requests==2.25.1
 robobrowser==0.5.3
 six==1.15.0
