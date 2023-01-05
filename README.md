@@ -2,6 +2,8 @@
 
 This is a library to use in order to scrape Technicolor Gateway
 
+![tests](https://github.com/shaiu/technicolorgateway/actions/workflows/python-package.yml/badge.svg)
+
 
 ### Installation
 
