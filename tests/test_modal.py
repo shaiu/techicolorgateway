@@ -3,8 +3,8 @@ from technicolorgateway.modal import get_broadband_modal, get_device_modal
 
 class TestModal:
     def test_get_broadband_modal(self):
-        with open('tests/resources/broadband-modal.lp') as f:
-            content = f.read()
+        with open('tests/resources/broadband-modal.lp', encoding='utf-8') as file:
+            content = file.read()
         modal_dict = get_broadband_modal(content)
         print('\n')
         print(modal_dict)
@@ -15,8 +15,8 @@ class TestModal:
         assert modal_dict['downloaded'] == '3973.16'
 
     def test_get_device_modal_fw_2_3_1(self):
-        with open('tests/resources/device-modal_2_3_1_fw.lp') as f:
-            content = f.read()
+        with open('tests/resources/device-modal_2_3_1_fw.lp', encoding='utf-8') as file:
+            content = file.read()
         modal_list = get_device_modal(content)
         print('\n')
         print(modal_list)
@@ -29,8 +29,8 @@ class TestModal:
         assert modal_list[-1]['mac'] == 'b4:cd:27:b0:1f:23'
 
     def test_get_device_modal_len6(self):
-        with open('tests/resources/device-modal_len6.lp') as f:
-            content = f.read()
+        with open('tests/resources/device-modal_len6.lp', encoding='utf-8') as file:
+            content = file.read()
         modal_list = get_device_modal(content)
         print('\n')
         print(modal_list)
@@ -43,8 +43,8 @@ class TestModal:
         assert modal_list[-1]['mac'] == '24:62:ab:bb:65:30'
 
     def test_get_device_modal_len12(self):
-        with open('tests/resources/device-modal_len_12.lp') as f:
-            content = f.read()
+        with open('tests/resources/device-modal_len_12.lp', encoding='utf-8') as file:
+            content = file.read()
         modal_list = get_device_modal(content)
         print('\n')
         print(modal_list)
@@ -57,8 +57,8 @@ class TestModal:
         assert modal_list[-1]['mac'] == 'fc:8f:81:83:7f:1d'
 
     def test_get_device_modal_len8(self):
-        with open('tests/resources/device-modal_len_8.lp') as f:
-            content = f.read()
+        with open('tests/resources/device-modal_len_8.lp', encoding='utf-8') as file:
+            content = file.read()
         modal_list = get_device_modal(content)
         print('\n')
         print(modal_list)

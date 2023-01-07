@@ -11,10 +11,10 @@ from technicolorgateway.modal import get_device_modal, get_broadband_modal
 
 _LOGGER = logging.getLogger(__name__)
 
-__version__ = "1.1.5"
+__version__ = "1.1.6"
 
 
-class TechnicolorGateway(object):
+class TechnicolorGateway:
     def __init__(self, host, port, user, password) -> None:
         self._host = host
         self._port = port
@@ -26,7 +26,8 @@ class TechnicolorGateway(object):
     def srp6authenticate(self):
         try:
             self._br.open(self._uri)
-            token = self._br.find(lambda tag: tag.has_attr('name') and tag['name'] == 'CSRFtoken')['content']
+            token = self._br.find(lambda tag: tag.has_attr('name')
+                                              and tag['name'] == 'CSRFtoken')['content']
             _LOGGER.debug('Got CSRF token: %s', token)
 
             usr = srp.User(self._user, self._password, hash_alg=srp.SHA256, ng_type=srp.NG_2048)
@@ -34,7 +35,8 @@ class TechnicolorGateway(object):
             _LOGGER.debug('A value %s', binascii.hexlify(A))
 
             self._br.open(f'{self._uri}/authenticate', method='post',
-                          data=urlencode({'CSRFtoken': token, 'I': uname, 'A': binascii.hexlify(A)}))
+                          data=urlencode({'CSRFtoken': token,
+                                          'I': uname, 'A': binascii.hexlify(A)}))
             _LOGGER.debug("br.response %s", self._br.response)
             j = json.decoder.JSONDecoder().decode(self._br.parsed.decode())
             _LOGGER.debug("Challenge received: %s", j)
@@ -56,19 +58,19 @@ class TechnicolorGateway(object):
 
             return True
 
-        except Exception as e:
-            _LOGGER.error("Authentication failed. Exception: ", e)
+        except Exception as execption:
+            _LOGGER.error("Authentication failed. Exception: %s", execption)
             traceback.print_exc()
             raise
 
     def get_device_modal(self):
-        r = self._br.session.get(f"{self._uri}/modals/device-modal.lp")
-        self._br._update_state(r)
-        content = r.content.decode()
+        req = self._br.session.get(f"{self._uri}/modals/device-modal.lp")
+        self._br._update_state(req)
+        content = req.content.decode()
         return get_device_modal(content)
 
     def get_broadband_modal(self):
-        r = self._br.session.get(f"{self._uri}/modals/broadband-modal.lp")
-        self._br._update_state(r)
-        content = r.content.decode()
+        req = self._br.session.get(f"{self._uri}/modals/broadband-modal.lp")
+        self._br._update_state(req)
+        content = req.content.decode()
         return get_broadband_modal(content)
