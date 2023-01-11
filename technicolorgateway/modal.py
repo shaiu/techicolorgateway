@@ -28,7 +28,7 @@ def get_device_modal(content):
     data = []
     soup = BeautifulSoup(content, features="lxml")
     devices = soup.find_all("div", {"class": "popUp smallcard span4"})
-    rows = soup.fieldset.find_all('tr')
+    rows = soup.find_all('tr')
     if len(devices) > 0:
         get_data_from_devices(data, devices)
 

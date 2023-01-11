@@ -11,7 +11,7 @@ from technicolorgateway.modal import get_device_modal, get_broadband_modal
 
 _LOGGER = logging.getLogger(__name__)
 
-__version__ = "1.1.6"
+__version__ = "1.1.7"
 
 
 class TechnicolorGateway:
@@ -26,8 +26,9 @@ class TechnicolorGateway:
     def srp6authenticate(self):
         try:
             self._br.open(self._uri)
-            token = self._br.find(lambda tag: tag.has_attr('name')
-                                              and tag['name'] == 'CSRFtoken')['content']
+            token_tag = self._br.find(lambda tag: tag.has_attr('name')
+                                                  and tag['name'] == 'CSRFtoken')
+            token = token_tag['content']
             _LOGGER.debug('Got CSRF token: %s', token)
 
             usr = srp.User(self._user, self._password, hash_alg=srp.SHA256, ng_type=srp.NG_2048)
@@ -63,8 +64,14 @@ class TechnicolorGateway:
             traceback.print_exc()
             raise
 
-    def get_device_modal(self):
-        req = self._br.session.get(f"{self._uri}/modals/device-modal.lp")
+    def device_modal(self):
+        data = self.get_device_modals(f"{self._uri}/modals/device-modal.lp")
+        if len(data) == 0:
+            data = self.get_device_modals(f"{self._uri}/modals/ipv6devices-modal.lp")
+        return data
+
+    def get_device_modals(self, device_modal):
+        req = self._br.session.get(device_modal)
         self._br._update_state(req)
         content = req.content.decode()
         return get_device_modal(content)

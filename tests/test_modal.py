@@ -66,3 +66,14 @@ class TestModal:
         assert modal_list[0]['name'] == 'Mate'
         assert modal_list[0]['ip'] == '192.168.1.2'
         assert modal_list[0]['mac'] == '02:11:12:12:12:12'
+
+    def test_get_device_modal_ipv6devices(self):
+        with open('tests/resources/ipv6devices-modal.lp', encoding='utf-8') as file:
+            content = file.read()
+        modal_list = get_device_modal(content)
+        print('\n')
+        print(modal_list)
+        assert len(modal_list) == 1
+        assert modal_list[0]['name'] == 'DeviceHostName'
+        assert modal_list[0]['ip'] == '192.168.1.111'
+        assert modal_list[0]['mac'] == 'A4:83:e7:32:7e:11'
