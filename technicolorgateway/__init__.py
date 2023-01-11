@@ -11,7 +11,7 @@ from technicolorgateway.modal import get_device_modal, get_broadband_modal
 
 _LOGGER = logging.getLogger(__name__)
 
-__version__ = "1.1.7"
+__version__ = "1.1.8"
 
 
 class TechnicolorGateway:
@@ -64,7 +64,7 @@ class TechnicolorGateway:
             traceback.print_exc()
             raise
 
-    def device_modal(self):
+    def get_device_modal(self):
         data = self.get_device_modals(f"{self._uri}/modals/device-modal.lp")
         if len(data) == 0:
             data = self.get_device_modals(f"{self._uri}/modals/ipv6devices-modal.lp")
