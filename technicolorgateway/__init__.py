@@ -11,7 +11,7 @@ from technicolorgateway.modal import get_device_modal, get_broadband_modal
 
 _LOGGER = logging.getLogger(__name__)
 
-__version__ = "1.1.8"
+__version__ = "1.1.9"
 
 
 class TechnicolorGateway:
@@ -24,43 +24,51 @@ class TechnicolorGateway:
         self._br = RoboBrowser(history=True, parser="html.parser")
 
     def srp6authenticate(self):
+
+        self._br.open(self._uri)
+        token_tag = self._br.find(lambda tag: tag.has_attr('name') and tag['name'] == 'CSRFtoken')
+        token = token_tag['content']
+        _LOGGER.debug('Got CSRF token: %s', token)
+
+        usr = srp.User(self._user, self._password, hash_alg=srp.SHA256, ng_type=srp.NG_2048)
+        uname, A = usr.start_authentication()
+        _LOGGER.debug('A value %s', binascii.hexlify(A))
+
+        self._br.open(f'{self._uri}/authenticate', method='post',
+                      data=urlencode({'CSRFtoken': token,
+                                      'I': uname, 'A': binascii.hexlify(A)}))
+        _LOGGER.debug("br.response %s", self._br.response)
+        j = json.decoder.JSONDecoder().decode(self._br.parsed.decode())
+        _LOGGER.debug("Challenge received: %s", j)
+
+        M = usr.process_challenge(binascii.unhexlify(j['s']), binascii.unhexlify(j['B']))
+        _LOGGER.debug("M value %s", binascii.hexlify(M))
+        self._br.open(f'{self._uri}/authenticate', method='post',
+                      data=urlencode({'CSRFtoken': token, 'M': binascii.hexlify(M)}))
+        _LOGGER.debug("br.response %s", self._br.response)
+        j = json.decoder.JSONDecoder().decode(self._br.parsed.decode())
+        _LOGGER.debug("Got response %s", j)
+
+        if 'error' in j:
+            raise Exception("Unable to authenticate (check password?), message:", j)
+
+        usr.verify_session(binascii.unhexlify(j['M']))
+        if not usr.authenticated():
+            raise Exception("Unable to authenticate")
+
+        return True
+
+    def authenticate(self):
         try:
-            self._br.open(self._uri)
-            token_tag = self._br.find(lambda tag: tag.has_attr('name')
-                                                  and tag['name'] == 'CSRFtoken')
-            token = token_tag['content']
-            _LOGGER.debug('Got CSRF token: %s', token)
-
-            usr = srp.User(self._user, self._password, hash_alg=srp.SHA256, ng_type=srp.NG_2048)
-            uname, A = usr.start_authentication()
-            _LOGGER.debug('A value %s', binascii.hexlify(A))
-
-            self._br.open(f'{self._uri}/authenticate', method='post',
-                          data=urlencode({'CSRFtoken': token,
-                                          'I': uname, 'A': binascii.hexlify(A)}))
+            self._br.open(f'{self._uri}', method='POST',
+                          data={"username": self._user, "password": self._password})
             _LOGGER.debug("br.response %s", self._br.response)
-            j = json.decoder.JSONDecoder().decode(self._br.parsed.decode())
-            _LOGGER.debug("Challenge received: %s", j)
-
-            M = usr.process_challenge(binascii.unhexlify(j['s']), binascii.unhexlify(j['B']))
-            _LOGGER.debug("M value %s", binascii.hexlify(M))
-            self._br.open(f'{self._uri}/authenticate', method='post',
-                          data=urlencode({'CSRFtoken': token, 'M': binascii.hexlify(M)}))
-            _LOGGER.debug("br.response %s", self._br.response)
-            j = json.decoder.JSONDecoder().decode(self._br.parsed.decode())
-            _LOGGER.debug("Got response %s", j)
-
-            if 'error' in j:
-                raise Exception("Unable to authenticate (check password?), message:", j)
-
-            usr.verify_session(binascii.unhexlify(j['M']))
-            if not usr.authenticated():
-                raise Exception("Unable to authenticate")
-
+            if self._br.response.status_code != 200:
+                return self.srp6authenticate()
             return True
 
-        except Exception as execption:
-            _LOGGER.error("Authentication failed. Exception: %s", execption)
+        except Exception as exception:
+            _LOGGER.error("Authentication failed. Exception: %s", exception)
             traceback.print_exc()
             raise
 
