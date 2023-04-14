@@ -8,7 +8,7 @@ from technicolorgateway import TechnicolorGateway
 def test_srp6authenticate_no_token():
     with open("tests/resources/login_page_no_token.html", encoding='utf-8') as file:
         htm = file.read()
-    responses.add(responses.POST, 'http://192.168.1.2:80/', htm, status=200)
+    responses.add(responses.GET, 'http://192.168.1.2:80/', htm, status=200)
     tech_gateway = TechnicolorGateway('192.168.1.2', 80, "admin", "aaaaaa")
     tech_gateway.authenticate()
     with pytest.raises(TypeError) as err:
