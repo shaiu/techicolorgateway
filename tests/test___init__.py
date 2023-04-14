@@ -6,7 +6,7 @@ from technicolorgateway import TechnicolorGateway
 
 @responses.activate
 def test_srp6authenticate_no_token():
-    with open("resources/login_page_no_token.html", encoding='utf-8') as file:
+    with open("tests/resources/login_page_no_token.html", encoding='utf-8') as file:
         htm = file.read()
     responses.add(responses.POST, 'http://192.168.1.2:80/', htm, status=200)
     tech_gateway = TechnicolorGateway('192.168.1.2', 80, "admin", "aaaaaa")
