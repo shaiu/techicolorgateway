@@ -60,11 +60,14 @@ class TechnicolorGateway:
 
     def authenticate(self):
         try:
+            _LOGGER.info("trying to simple authenticate")
             self._br.open(f'{self._uri}', method='POST',
                           data={"username": self._user, "password": self._password})
             _LOGGER.debug("br.response %s", self._br.response)
             if self._br.response.status_code != 200:
+                _LOGGER.info("no simple authenticate. trying srp6authenticate")
                 return self.srp6authenticate()
+            _LOGGER.info("simple authenticate success")
             return True
 
         except Exception as exception:
@@ -73,15 +76,21 @@ class TechnicolorGateway:
             raise
 
     def get_device_modal(self):
+        _LOGGER.debug("trying to device-modal")
         data = self.get_device_modals(f"{self._uri}/modals/device-modal.lp")
         if len(data) == 0:
+            _LOGGER.debug("trying to ipv6devices-modal")
             data = self.get_device_modals(f"{self._uri}/modals/ipv6devices-modal.lp")
         return data
 
     def get_device_modals(self, device_modal):
+        _LOGGER.debug("get_device_modals")
         req = self._br.session.get(device_modal)
         self._br._update_state(req)
         content = req.content.decode()
+        _LOGGER.debug("first and last rows of content")
+        _LOGGER.debug(f"{content[:30]}")
+        _LOGGER.debug(f"{content[:-30]}")
         return get_device_modal(content)
 
     def get_broadband_modal(self):

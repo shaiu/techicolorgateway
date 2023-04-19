@@ -1,7 +1,10 @@
+import logging
 import re
 
 import html2text
 from bs4 import BeautifulSoup
+
+_LOGGER = logging.getLogger(__name__)
 
 h = html2text.HTML2Text()
 h.body_width = 0
@@ -28,16 +31,19 @@ def get_device_modal(content):
     data = []
     soup = BeautifulSoup(content, features="lxml")
     devices = soup.find_all("div", {"class": "popUp smallcard span4"})
+    _LOGGER.debug("devices len %s" % len(devices))
     rows = soup.find_all('tr')
+    _LOGGER.debug("rows len %s" % len(rows))
     if len(devices) > 0:
         get_data_from_devices(data, devices)
-
-    if len(rows) > 0:
+    elif len(rows) > 0:
         get_data_from_rows(data, rows)
     return data
 
 
 def get_data_from_devices(data, devices):
+    _LOGGER.debug("get_data_from_devices")
+    _LOGGER.debug(f"first device {devices[0]}")
     for device in devices:
         device_contents = device.contents
         name = device_contents[1].contents[1].contents[1].text
@@ -47,6 +53,7 @@ def get_data_from_devices(data, devices):
 
 
 def get_data_from_rows(data, rows):
+    _LOGGER.debug("get_data_from_rows")
     headers = [ele.text.strip().lower() for ele in rows[0].find_all('th')]
     name_index = headers.index('hostname')
     try:
@@ -55,6 +62,7 @@ def get_data_from_rows(data, rows):
         ip_index = headers.index('ipv4')
     mac_index = headers.index('mac address')
     rows.pop(0)
+    _LOGGER.debug(f"first row {rows[0]}")
     for row in rows:
         cols = row.find_all('td')
         cols = [ele.text.strip() for ele in cols]

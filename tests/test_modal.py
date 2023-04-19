@@ -77,3 +77,13 @@ class TestModal:
         assert modal_list[0]['name'] == 'DeviceHostName'
         assert modal_list[0]['ip'] == '192.168.1.111'
         assert modal_list[0]['mac'] == 'A4:83:e7:32:7e:11'
+
+    def test_get_device_modal(self):
+        with open('tests/resources/device-modal_.lp', encoding='utf-8') as file:
+            content = file.read()
+        modal_list = get_device_modal(content)
+        print('\n')
+        print(modal_list)
+        assert modal_list[0]['name'] == 'Luce-Studio'
+        assert modal_list[0]['ip'] == '*.*.*.158'
+        assert modal_list[0]['mac'] == '10:5a:17:12:a0:d6'
