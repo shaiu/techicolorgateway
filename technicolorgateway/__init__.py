@@ -11,7 +11,7 @@ from technicolorgateway.modal import get_device_modal, get_broadband_modal
 
 _LOGGER = logging.getLogger(__name__)
 
-__version__ = "1.1.10"
+__version__ = "1.1.11"
 
 
 class TechnicolorGateway:
@@ -56,22 +56,22 @@ class TechnicolorGateway:
         if not usr.authenticated():
             raise Exception("Unable to authenticate")
 
-        return True
-
     def authenticate(self):
         try:
-            _LOGGER.info("trying to simple authenticate")
-            self._br.open(f'{self._uri}', method='POST',
-                          data={"username": self._user, "password": self._password})
-            _LOGGER.debug("br.response %s", self._br.response)
-            if self._br.response.status_code != 200:
-                _LOGGER.info("no simple authenticate. trying srp6authenticate")
-                return self.srp6authenticate()
-            _LOGGER.info("simple authenticate success")
+            _LOGGER.info("trying srp6authenticate")
+            self.srp6authenticate()
+            _LOGGER.info("srp6authenticate success")
             return True
 
         except Exception as exception:
             _LOGGER.error("Authentication failed. Exception: %s", exception)
+            _LOGGER.info("trying to simple authenticate")
+            self._br.open(f'{self._uri}', method='POST',
+                          data={"username": self._user, "password": self._password})
+            _LOGGER.debug("simple: br.response %s", self._br.response)
+            if self._br.response.status_code == 200:
+                _LOGGER.info("simple authenticate success")
+                return True
             traceback.print_exc()
             raise
 
