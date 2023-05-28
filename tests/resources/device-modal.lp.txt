@@ -1,0 +1,54 @@
+
+ <div class="modal-header"  data-autorefresh='10'>
+  <div class="row-fluid">
+    <div class="span11"><h2 class="span4"> Devices</h2>
+    <span class="modal-action"><span class="modal-action-refresh" id="Refresh_id"><i class="icon-refresh"></i> refresh data</span></span>        </div>
+    <div class="span1"><a href="#" class="button btn-primary btn-close" data-dismiss="modal"><i class="icon-remove"></i></a></div>
+  </div>
+</div>
+    
+<div class="modal-body update">
+<ul class="nav nav-tabs"><li class="active"><a href="#" data-remote="/modals/device-modal.lp">Device List</a></li><li class=""><a href="#" data-remote="/modals/device-wireless-modal.lp">Wi-Fi Device List</a></li><li class=""><a href="#" data-remote="/modals/device-map-modal.lp">Network Map</a></li><li class=""><a href="#" data-remote="/modals/device-bwstats-modal.lp">Bandwidth Monitor</a></li></ul>
+  <form class="form-horizontal" method="post" action="modals/device-modal.lp?sort=FriendlyName&connected=Active">
+    <fieldset><div class="control-group"><table id="devices" class="table table-striped" data-stateid=""><thead><tr><th>Status</th><th>Hostname</th><th>IPv4</th><th>IPv6</th><th>MAC</th><th>Interface</th><th>Connected</th><th>Lease Time</th><th>Priority<span class='icon-question-sign' title='Prioritize outgoing traffic'></span></th><th></th></tr></thead><tbody><tr><td><span class="simple-desc"><div class="light green"></div></span></td><td>EdgeRouter-X</td><td>192.168.0.152</td><td></td><td><span class='maccell' id='7483c2fde007'><span class='macaddress'>74:83:c2:fd:e0:07</span><i class='macvendor'></i><span></td><td>Ethernet - 1</td><td>0d 10:39:22</td><td>0d 13:24:24</td><td><div class="switch switch disabled"><div class="switcher" textON="ON" textOFF="OFF" valOn="1" valOff="0"></div><input value="0" type="hidden" name="priority" id="priority"></div></td> <td><div id="" class="btn btn-mini btn-table-edit tooltip-on" data-placement="top" data-original-title="Edit"><i class="icon-edit"></i>  </div></td></tr></tbody></table></div>
+    </fieldset>
+  </form>
+</div>
+<script src="/js/modal-busy.js?20.3.c_2023.05.16@17:00"></script>
+     <div class="modal-footer">
+      <div id="modal-no-change">
+        <div id="close-config" class="btn btn-primary btn-large" data-dismiss="modal">Close</div>
+      </div>
+      <div id="modal-changes" class="hide">
+        <div id="cancel-config" class="btn btn-large" data-dismiss="modal">Cancel</div>
+        <div id="save-config" class="btn btn-primary btn-large">Save</div>
+      </div>
+    </div>
+    
+<script src="/js/device-modal.js?20.3.c_2023.05.16@17:00"></script>
+<script>
+var hdrs = document.getElementsByTagName("th");
+for(var i=0;i<hdrs.length;i++){
+  var text=hdrs[i].innerText;
+  var sort="";
+  var title="";
+  var connected="Active";
+  switch(text){
+    case "Status":sort="FriendlyName";connected="All";title="Show All";break;
+    case "Hostname":sort="FriendlyName";break;
+    case "IPv4":sort="IPv4";break;
+    case "IPv6":sort="IPv6";break;
+    case "MAC":sort="MACAddress";break;
+    case "Interface":sort="InterfaceType";break;
+    case "Connected":sort="ConnectedTime";break;
+    default:sort="";break;
+  }
+  if (sort!="") {
+    if (title=="") {
+      title="Sort by "+text;
+    }
+    hdrs[i].innerHTML='<a href="#" title="'+title+'" data-remote="modals/device-modal.lp?sort='+sort+'&connected='+connected+'">'+text+'</a>';
+    hdrs[i].setAttribute("class","nav");
+  }
+}
+</script>
