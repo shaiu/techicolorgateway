@@ -60,7 +60,10 @@ def get_data_from_rows(data, rows):
         ip_index = headers.index('ip address')
     except ValueError:
         ip_index = headers.index('ipv4')
-    mac_index = headers.index('mac address')
+    try:
+        mac_index = headers.index('mac address')
+    except ValueError:
+        mac_index = headers.index('mac')
     rows.pop(0)
     _LOGGER.debug(f"first row {rows[0]}")
     for row in rows:
