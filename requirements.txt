@@ -20,4 +20,4 @@ Werkzeug==0.16.1
 lxml==4.9.4
 
 setuptools~=65.7.0
-responses~=0.22.0
+responses~=0.24.1
