@@ -1,6 +1,6 @@
 attrs==23.2.0
 beautifulsoup4==4.12.2
-certifi==2023.11.17
+certifi==2024.2.2
 chardet==5.2.0
 html2text==2020.1.16
 idna==3.6
