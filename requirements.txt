@@ -2,7 +2,7 @@ attrs==23.2.0
 beautifulsoup4==4.12.2
 certifi==2024.2.2
 chardet==5.2.0
-html2text==2020.1.16
+html2text==2024.2.26
 idna==3.6
 iniconfig==2.0.0
 packaging==22.0
