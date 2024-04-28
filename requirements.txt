@@ -16,7 +16,7 @@ six==1.16.0
 soupsieve==2.3.2.post1
 toml==0.10.2
 urllib3==2.2.1
-Werkzeug==0.16.1
+Werkzeug==2.2.3
 lxml==5.2.1
 
 setuptools~=69.5.1
