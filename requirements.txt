@@ -19,5 +19,5 @@ urllib3==2.2.1
 Werkzeug==0.16.1
 lxml==5.2.2
 
-setuptools~=70.0.0
+setuptools~=70.1.1
 responses~=0.25.0
