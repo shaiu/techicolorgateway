@@ -26,5 +26,5 @@ setup(
     ],
     packages=["technicolorgateway"],
     include_package_data=True,
-    install_requires=["six", "html2text", "robobrowser", "Werkzeug==0.16.1"],
+    install_requires=["six", "html2text", "robobrowser", "Werkzeug==3.0.3"],
 )
