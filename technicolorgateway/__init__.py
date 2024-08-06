@@ -100,8 +100,30 @@ class TechnicolorGateway:
         return get_broadband_modal(content)
 
     def get_system_info_modal(self):
-        "Open System info modal and retrun the properties as a dict"
+        """Open System info modal and return the properties as a dict. This may
+        include the following keys:
+            "Product Vendor",
+            "Product Name",
+            "Serial Number",
+            "Software Version",
+            "Uptime since last reboot",
+            "Firmware Version",
+            "Hardware Version",
+            "MAC Address",
+            "Memory Usage",
+            "CPU Usage",
+            "Reboot Cause",
+        """
         req = self._br.session.get(f"{self._uri}/modals/system-info-modal.lp")
         self._br._update_state(req)
         content = req.content.decode()
         return get_system_info_modal(content)
+
+    def get_diagnostics_connection_modal(self):
+        "Open Diagnostics Connection modal and return connection check as a dict"
+        req = self._br.session.get(
+            f"{self._uri}/modals/diagnostics-connection-modal.lp"
+        )
+        self._br._update_state(req)
+        content = req.content.decode()
+        return get_diagnostics_connection_modal(content)

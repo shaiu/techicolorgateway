@@ -119,3 +119,21 @@ class TestModal:
         assert modal_dict["Memory Usage"] == "86 %"
         assert modal_dict["CPU Usage"] == "2 %"
         assert modal_dict["Reboot Cause"] == "Power"
+
+    def test_get_diagnostics_connection_modal(self):
+        with open(
+            "tests/resources/diagnostics-connection-modal.lp", encoding="utf-8"
+        ) as file:
+            content = file.read()
+        modal_dict = get_diagnostics_connection_modal(content)
+        print("\n")
+        print(modal_dict)
+        assert len(modal_dict) == 7
+
+        assert modal_dict["WAN Enable"] == "Interface Enabled"
+        assert modal_dict["WAN Available"] == "Link Up"
+        assert modal_dict["IP Version 4 Address"] == "82.133.131.13"
+        assert modal_dict["IP Version 6 Address"] == "No Address Assigned"
+        assert modal_dict["Next Hop Ping"] == "Success"
+        assert modal_dict["First DNS Server Ping"] == "Success"
+        assert modal_dict["Second DNS Server Ping"] == "Success"
