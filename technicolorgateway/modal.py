@@ -70,3 +70,30 @@ def get_data_from_rows(data, rows):
         cols = row.find_all('td')
         cols = [ele.text.strip() for ele in cols]
         data.append({'name': cols[name_index], 'ip': cols[ip_index], 'mac': cols[mac_index]})
+
+def get_system_info_modal(content):
+    soup = BeautifulSoup(content, "html.parser")
+    # Extract product information
+    product_info = {}
+    for div in soup.select("div.control-group"):
+        label = div.select_one("label.control-label")
+        span = div.select_one("span.simple-desc")
+        if label and span:
+            key = label.text.strip()
+            value = span.text.strip()
+            product_info[key] = value
+    return product_info
+
+
+def get_diagnostics_connection_modal(content):
+    soup = BeautifulSoup(content, "html.parser")
+    # Extract connection diagnostics
+    product_info = {}
+    for div in soup.select("div.control-group"):
+        label = div.select_one("label.control-label")
+        span = div.select_one("span.simple-desc")
+        if label and span:
+            key = label.text.strip()
+            value = span.text.strip()
+            product_info[key] = value
+    return product_info
