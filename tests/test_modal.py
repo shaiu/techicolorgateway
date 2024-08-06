@@ -97,3 +97,25 @@ class TestModal:
         assert modal_list[0]['name'] == 'EdgeRouter-X'
         assert modal_list[0]['ip'] == '192.168.0.152'
         assert modal_list[0]['mac'] == '74:83:c2:fd:e0:07'
+
+    def test_get_system_info_modal(self):
+        with open("tests/resources/system-info-modal.lp", encoding="utf-8") as file:
+            content = file.read()
+        modal_dict = get_system_info_modal(content)
+        print("\n")
+        print(modal_dict)
+        assert len(modal_dict) == 11
+        assert modal_dict["Product Vendor"] == "Technicolor"
+        assert modal_dict["Product Name"] == "Telia F1"
+        assert modal_dict["Serial Number"] == "CP2221ADU9K"
+        assert modal_dict["Software Version"] == "19.5"
+        assert (
+            modal_dict["Uptime since last reboot"]
+            == "19 days 6 hours 13 minutes 8 seconds"
+        )
+        assert modal_dict["Firmware Version"] == "19.5.1062-4581003"
+        assert modal_dict["Hardware Version"] == "GCNT-X"
+        assert modal_dict["MAC Address"] == "AA:BB:CC:45:18:0E"
+        assert modal_dict["Memory Usage"] == "86 %"
+        assert modal_dict["CPU Usage"] == "2 %"
+        assert modal_dict["Reboot Cause"] == "Power"

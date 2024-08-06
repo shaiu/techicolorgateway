@@ -98,3 +98,10 @@ class TechnicolorGateway:
         self._br._update_state(req)
         content = req.content.decode()
         return get_broadband_modal(content)
+
+    def get_system_info_modal(self):
+        "Open System info modal and retrun the properties as a dict"
+        req = self._br.session.get(f"{self._uri}/modals/system-info-modal.lp")
+        self._br._update_state(req)
+        content = req.content.decode()
+        return get_system_info_modal(content)
