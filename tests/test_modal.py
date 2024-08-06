@@ -1,4 +1,9 @@
-from technicolorgateway.modal import get_broadband_modal, get_device_modal
+from technicolorgateway.modal import (
+    get_broadband_modal,
+    get_device_modal,
+    get_system_info_modal,
+    get_diagnostics_connection_modal,
+)
 
 
 class TestModal:

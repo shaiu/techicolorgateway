@@ -87,7 +87,7 @@ def get_system_info_modal(content):
 
 def get_diagnostics_connection_modal(content):
     soup = BeautifulSoup(content, "html.parser")
-    # Extract product information
+    # Extract connection diagnostics
     product_info = {}
     for div in soup.select("div.control-group"):
         label = div.select_one("label.control-label")
