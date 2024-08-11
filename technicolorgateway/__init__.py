@@ -7,7 +7,12 @@ from urllib.parse import urlencode
 from robobrowser import RoboBrowser
 
 from technicolorgateway import mysrp as srp
-from technicolorgateway.modal import get_device_modal, get_broadband_modal
+from technicolorgateway.modal import (
+    get_device_modal,
+    get_broadband_modal,
+    get_system_info_modal,
+    get_diagnostics_connection_modal,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -98,3 +103,39 @@ class TechnicolorGateway:
         self._br._update_state(req)
         content = req.content.decode()
         return get_broadband_modal(content)
+
+    def get_system_info_modal(self):
+        """Open System info modal and return the properties as a dict. Depending
+        on your hardware model, this may include the following keys:
+            "Product Vendor",
+            "Product Name",
+            "Serial Number",
+            "Software Version",
+            "Uptime since last reboot",
+            "Firmware Version",
+            "Hardware Version",
+            "MAC Address",
+            "Memory Usage",
+            "CPU Usage",
+            "Reboot Cause",
+        """
+        req = self._br.session.get(f"{self._uri}/modals/system-info-modal.lp")
+        self._br._update_state(req)
+        content = req.content.decode()
+        return get_system_info_modal(content)
+
+    def get_diagnostics_connection_modal(self):
+        """Open Diagnostics Connection modal and return connection check as a
+        dict. Depending on your hardware model, this may include the following
+        keys:
+            'WAN Enable', 'WAN Available', 'IP Version 4 Address', 'IP Version 6
+            Address', 'Next Hop Ping', 'First DNS Server Ping', 'Second DNS
+            Server Ping'
+        """
+
+        req = self._br.session.get(
+            f"{self._uri}/modals/diagnostics-connection-modal.lp"
+        )
+        self._br._update_state(req)
+        content = req.content.decode()
+        return get_diagnostics_connection_modal(content)
