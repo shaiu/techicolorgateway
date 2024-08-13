@@ -13,7 +13,7 @@ pytest==8.3.2
 requests==2.32.3
 robobrowser==0.5.3
 six==1.16.0
-soupsieve==2.3.2.post1
+soupsieve==2.6
 toml==0.10.2
 urllib3==2.2.2
 Werkzeug==0.16.1
