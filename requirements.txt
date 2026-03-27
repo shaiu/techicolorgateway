@@ -4,7 +4,7 @@ certifi==2024.7.4
 chardet==5.2.0
 html2text==2024.2.26
 idna==3.7
-iniconfig==2.0.0
+iniconfig==2.3.0
 packaging==24.1
 pluggy==1.5.0
 py==1.11.0
